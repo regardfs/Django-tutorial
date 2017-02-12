@@ -1,0 +1,5 @@
+Django app
+1. create a Django app in certain project
+
+python manage.py startapp Parkson
+

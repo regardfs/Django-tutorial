@@ -13,3 +13,41 @@ we always use "python manage.py shell" to test template
 >>> temp_with_context = template.Context({'name':'Leo'})
 >>> print(temp.render(temp_with_context))
 "My name is Leo"
+
+3. use api to get template and render
+>>> temp = get_template("math.html")
+>>> cont = template.Context({'s': s, 'd': d, 'p': p, 'q': q})
+>>> return HttpResponse(temp.render(cont))
+
+4. more aggressive method
+取得模版(get_template)＋填写模版(Context+render)＋Http回应(HttpResponse) = render_to_response
+>>> return render_to_response('math.html', {'s':s, 'd':d, 'p':p, 'q':q})
+
+5. use locals() in your template
+return render_to_response('math.html',locals())
+locals() return a local parameters dictionary
+
+6. how to look up a dictionary value with a variable in django template:
+
+from django.template.defaulttags import register
+...
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
+usage:
+{{ mydict|get_item:item.NAME }}
+
+7. forloop attribute:
+
+forloop.counter: forloop计数器，由1开始递增迭代
+forloop.counter0: forloop计数器，由0开始递增迭代
+forloop.revcounter:	forloop倒数器，总数递减到1
+forloop.revcounter0: forloop倒数器，总数递减到-
+forloop.first: 如果是第一个，则是真
+forloop.last: 如果是最后一个，则是真
+forloop.parentloop	父迭代的forloop变量
+
+8. use pipe "|" to process the parameter
+{{ PizzHut|first|length }} 第一家必胜客的食品种类
+{{ sentence|truncatewords:"30" }} 输出句子的前30个单词
