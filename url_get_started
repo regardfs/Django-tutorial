@@ -1,0 +1,12 @@
+Django urls
+
+1. from views import mysite function
+
+we should import "mysite" function defined in views.py file.
+
+2. set url
+
+for example:
+url(r'^mysite/$', mysite), if we visit "www.mysite.com/mysite", django will look out "mysite" function in views.py
+
+

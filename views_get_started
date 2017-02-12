@@ -1,0 +1,15 @@
+1. what is views？
+
+The views is a list of functions which tight relevantly with config in urls.py，when you visit a website，Django will
+firstly analyze your url by patterns which defined in url.py file, then resort to the function name in views.py and
+handle request by the function and return httpresponse.
+
+so the whole process is:
+
+web browser => visit request => website => django urls.py => django views.py
+
+2.
+
+
+
+

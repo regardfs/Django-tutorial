@@ -1,0 +1,15 @@
+Django template
+
+1. template type:
+parameter: {{ sum }}
+label condition: {% if real %}
+comment: {# this is comment #}
+text: hehe
+
+2. test your template
+we always use "python manage.py shell" to test template
+>>> from django import template
+>>> temp = template.Template('My name is {{ name }}.')
+>>> temp_with_context = template.Context({'name':'Leo'})
+>>> print(temp.render(temp_with_context))
+"My name is Leo"

@@ -1,0 +1,108 @@
+1. start a project:
+>>> django-admin.py startproject mysite
+
+dir:
+mysite-|--manage.py
+       |--mysite----|--__init__.py
+                    |--settings.py
+                    |--urls.py
+                    |--wsgi.py
+
+manage.py: A command-line utility that lets you interact with this Django project in various ways.
+           You can read all the details about manage.py in django-admin and manage.py
+
+settings.py: Settings/configuration for this Django project. Django settings will tell you all about how settings work.
+
+urls.py: The URL declarations for this Django project; a “table of contents” of your Django-powered site. You can read
+         more about URLs in URL dispatcher.
+
+2. setting config:
+
+2.1: setting mysql DATABASES backend: replace default sqllite backends with this one
+
+# firstly, install some pkg(python3 env)
+>>> apt-get install libmysqlclient-dev
+>>> apt-get install python-dev
+>>>  pip install mysqlclient
+
+# creating test-oriented database fengshuodb
+>>> create database fengshuodb;
+>>> create user 'fengshuo'@'172.17.8.101' identified by '123';
+>>> grant all on fengshuodb.* to 'fengshuo';
+
+# support chinese
+>>> alter database fengshuodb character set utf8;
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'fengshuodb',
+        'USER': 'fengshuo',
+        'PASSWORD': '123',
+        'HOST': '172.17.8.101',
+        'PORT': '3306',
+        'ENCODING': 'utf-8',    # !!! set encoding to support chinese
+    }
+}
+
+2.2: setting TEMPLATES dirs:
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR,  'templates'),],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+BACKEND: BACKEND is a dotted Python path to a template engine class implementing Django’s template backend API.
+         The built-in backends are django.template.backends.django.DjangoTemplates and
+         django.template.backends.jinja2.Jinja2.
+
+DIRS: DIRS defines a list of directories where the engine should look for template source files, in search order.
+APP_DIRS: APP_DIRS tells whether the engine should look for templates inside installed applications. Each backend
+          defines a conventional name for the subdirectory inside applications where its templates should be stored.
+
+# Here’s an example of the search algorithm. For this example the TEMPLATES setting is:
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            '/home/html/example.com',
+            '/home/html/default',
+        ],
+    },
+    {
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'DIRS': [
+            '/home/html/jinja2',
+        ],
+    },
+]
+
+2.3: setting ALLOWED_HOSTS
+
+ALLOWED_HOSTS = ['172.17.8.101', ]
+
+
+2.4: open debug/template_debug mode(should close before website online)
+
+DEBUG = True
+TEMPLATE_DEBUG = True
+
+2.5: setting LANGUAGE_CODE
+
+LANGUAGE_CODE = 'zh-hans'
+
+2.6: setting TIME_ZONE
+
+TIME_ZONE = 'Asia/Shanghai'
