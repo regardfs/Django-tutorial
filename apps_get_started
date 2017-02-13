@@ -3,3 +3,37 @@ Django app
 
 python manage.py startapp Parkson
 
+dir tree:
+
+├── manage.py
+├── mysite
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-35.pyc
+│   │   ├── settings.cpython-35.pyc
+│   │   ├── urls.cpython-35.pyc
+│   │   ├── views.cpython-35.pyc
+│   │   └── wsgi.cpython-35.pyc
+│   ├── settings.py
+│   ├── urls.py
+│   ├── views.py
+│   └── wsgi.py
+├── Parkson
+│   ├── admin.py
+│   ├── apps.py
+│   ├── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+└── templates
+    ├── math.html
+    └── menu.html
+
+2. add Parkson to mysite.settings
+
+INSTALLED_APPS = (
+    ...,
+    'Parkson',
+)
