@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from mysite.views import helloworld, math, PizzaHut
+from Parkson.views import helloworld, math, PizzaHut
 
 # django will automatically add '/' before admin
 urlpatterns = [

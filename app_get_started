@@ -1,0 +1,31 @@
+Start app
+1. create a app:
+
+python manage.py startapp
+
+Parkson/
+├── admin.py
+├── apps.py
+├── __init__.py
+├── migrations
+│   └── __init__.py
+├── models.py
+├── tests.py
+└── views.py
+
+2. config settings, add your app
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'Parkson',
+]
+
+3. configure views.py
+
+
+4. configure urls.py

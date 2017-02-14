@@ -1,3 +1,36 @@
-from django.shortcuts import render
+# -*- coding: utf-8 -*-
 
-# Create your views here.
+from django.http import HttpResponse
+from django import template
+from django.template.loader import get_template
+from django.shortcuts import render_to_response
+
+from django.template.defaulttags import register
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
+
+def helloworld(request):
+    return HttpResponse('My first site writen by Django engine, 我的第一个Django网站')
+
+
+def math(request, a, b):
+    a = float(a)
+    b = float(b)
+    s = a + b
+    d = a - b
+    p = a * b
+    q = a / b
+    return render_to_response('math.html',locals())
+
+
+def PizzaHut(request):
+    pizza_1 = {'name': '芝士鸡肉披萨', 'numbers': 1, 'price': 59, 'is_spicy': '1', 'favourite': True}
+    pizza_2 = {'name': '鸡翅', 'numbers': 2, 'price': 14, 'is_spicy': '0', 'favourite': True}
+    pungency_degree = {'0': '不辣', '1': '微辣', '2': '中辣', '3': ' 非常辣'}
+    foods = [pizza_1, pizza_2]
+    return render_to_response('menu.html',locals())
+
