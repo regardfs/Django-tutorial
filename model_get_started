@@ -18,7 +18,7 @@ class Parkson(models.Model):
     phone_number = models.CharField(max_length=15)
     address = models.CharField(max_length=50, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):  # old version: __unicode__, latest version __str__
         return self.name
 
 
@@ -42,6 +42,9 @@ class Food(models.Model):
         default='不辣',
     )
 
+    def __str__(self):
+        return self.name
+
 2. After defining your model, you should check！
 python manage.py check
 
@@ -60,3 +63,40 @@ python manage.py migrate Parkson
 5. data handle
 >>> python manage.py shell
 from Parkson.models import Parkson, Food
+
+# create object: use ``objects.create`` method
+kfc1 = Parkson(name='KFC1', phone_number='010-11110001', address='1号')
+pizzhut1 = Parkson(name='PizzHut1', phone_number='010-11110002', address='2号')
+kfc2 = Parkson(name='KFC2', phone_number='010-11110003', address='3号')
+
+# save created object
+
+[i.save for i in [kfc1, pizzhut1]]
+
+# get all data
+pks = Parkson.objects.all() # <QuerySet [<Parkson: KFC1>, <Parkson: PizzHut1>]>
+
+# delete data
+pks.delete()
+
+# get attribute in certain object instance
+pks # <QuerySet [<Parkson: KFC1>, <Parkson: PizzHut1>, <Parkson: KFC2>]>
+pks[0]  # <Parkson: KFC1>
+pks[0].name # 'KFC1'
+pks[0].phone_number #'010-11110001
+
+# queryset: we could use get/filter to acquire data, and enforcement with try/exception
+p = Parkson.objects.get(name="KFC1")
+p   # <Parkson: KFC1>
+
+p = Parkson.objects.filter(name="KFC1")
+p   # <QuerySet [<Parkson: KFC1>]>
+
+# multi filter
+p = Parkson.objects.filter(name="KFC1", phone_number='010-11110001')
+p   # <QuerySet [<Parkson: KFC1>]>
+
+# contain/patterns filter
+p = Parkson.objects.filter(name__contains='KFC')
+p   # <QuerySet [<Parkson: KFC1>, <Parkson: KFC2>]>
+

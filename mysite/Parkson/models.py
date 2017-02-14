@@ -7,7 +7,7 @@ class Parkson(models.Model):
     phone_number = models.CharField(max_length=15)
     address = models.CharField(max_length=50, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -31,3 +31,5 @@ class Food(models.Model):
         default='不辣',
     )
 
+    def __str__(self):
+        return self.name
