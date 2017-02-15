@@ -8,7 +8,11 @@ so the whole process is:
 
 web browser => visit request => website => django urls.py => django views.py
 
-2.
+2. get views from model(database)
+
+# from django.shortcuts import render_to_response
+# from restaurants.models import Restaurant, Food
+
 
 
 

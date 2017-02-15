@@ -1,3 +1,5 @@
 from django.contrib import admin
+from Parkson.models import Parkson, Food
 
-# Register your models here.
+admin.site.register(Parkson)
+admin.site.register(Food)

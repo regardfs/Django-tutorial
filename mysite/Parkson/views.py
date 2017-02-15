@@ -7,6 +7,7 @@ from django.shortcuts import render_to_response
 
 from django.template.defaulttags import register
 
+from Parkson.models import Parkson, Food
 
 @register.filter
 def get_item(dictionary, key):
@@ -34,3 +35,7 @@ def PizzaHut(request):
     foods = [pizza_1, pizza_2]
     return render_to_response('menu.html',locals())
 
+
+def menu(request):
+    restaurants = Parkson.objects.all()
+    return render_to_response('parkson.html',locals())

@@ -45,6 +45,9 @@ class Food(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = [-'price']
+
 2. After defining your model, you should check！
 python manage.py check
 
@@ -86,17 +89,89 @@ pks[0].name # 'KFC1'
 pks[0].phone_number #'010-11110001
 
 # queryset: we could use get/filter to acquire data, and enforcement with try/exception
-p = Parkson.objects.get(name="KFC1")
+# Attention: do not return a queryset, return an object instance
+p1 = Parkson.objects.get(name="KFC1")
 p   # <Parkson: KFC1>
 
 p = Parkson.objects.filter(name="KFC1")
 p   # <QuerySet [<Parkson: KFC1>]>
 
-# multi filter
+# multi filter return a queryset
 p = Parkson.objects.filter(name="KFC1", phone_number='010-11110001')
 p   # <QuerySet [<Parkson: KFC1>]>
 
-# contain/patterns filter
+# contain/patterns filter return a queryset
 p = Parkson.objects.filter(name__contains='KFC')
 p   # <QuerySet [<Parkson: KFC1>, <Parkson: KFC2>]>
 
+# sequence filter
+# first get Parkson restaurant name
+p1 = Parkson.objects.get(name="KFC1")
+f1 = Food(name="板烧鸡腿堡", price=14, numbers=1, favourite=True, restaurant=p1)
+f2 = Food(name="小薯条", price=7, numbers=1, favourite=True, restaurant=p1)
+f3 = Food(name="中薯条", price=12, numbers=1, favourite=True, restaurant=p1)
+f4 = Food(name="大薯条", price=15, numbers=1, favourite=True, restaurant=p1)
+[i.save() for i in [f1,f2,f3,f4]]
+
+# sort by price:
+Food.objects.order_by('price')
+### <QuerySet [<Food: 小薯条>, <Food: 中薯条>, <Food: 板烧鸡腿堡>, <Food: 大薯条>]>
+
+# sort by price then name:
+Food.objects.order_by('price','name')
+### <QuerySet [<Food: 小薯条>, <Food: 中薯条>, <Food: 板烧鸡腿堡>, <Food: 大薯条>]>
+
+# reverse sorted by price
+Food.objects.order_by('-price')
+
+# set default rank and sort by certain field
+
+# joint sort, which only return one specify data not queryset
+Food.objects.order_by('price').filter(price=12).get(name__contains='薯条')    # <Food: 中薯条>
+
+# select Foreign key
+food = Food.objects.order_by('price').filter(price=12).get(name__contains='薯条')
+food.restaurant
+
+# 小写模型名称_set could get a relationship management for Foreign key
+r.food_set
+### <django.db.models.fields.related_descriptors.create_reverse_many_to_one_manager.<locals>.RelatedManager object at 0x7faece099e48>
+r.food_set.all()
+### <QuerySet [<Food: 板烧鸡腿堡>, <Food: 小薯条>, <Food: 中薯条>, <Food: 大薯条>]>
+
+# other relationship of Many to Many, for instance:
+from django.db import models
+
+class Author(models.Model):
+    name = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return self.name
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    authors = models.ManyToManyField(Author)
+
+book = Book.objects.get(id=1)
+book.authors.all()
+### [<Author: 金庸>, <Author: 古龍>]
+
+author = Author.objects.get(id=1)
+a.book_set.all()
+### [<Book: 便秘的魔法石>, <Book: 考盃的考驗>]
+
+# update
+1. use get method
+food = Food.objects.get(price=12)
+food.price=13
+food.save()
+
+2. use queryset update method
+Food.objects.filter(name="中薯条").update(price=12)
+Parkson.objects.get(name="KFC1").food_set.update(price=50)
+
+# delete
+food = Food.objects.get(name="板烧鸡腿堡")
+food.delete()
+foods = Food.objects.all()
+foods.delete()
