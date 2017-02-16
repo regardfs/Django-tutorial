@@ -39,3 +39,11 @@ def PizzaHut(request):
 def menu(request):
     restaurants = Parkson.objects.all()
     return render_to_response('parkson.html',locals())
+
+def restaurants_list(request):
+    restaurants = Parkson.objects.all()
+    return render_to_response('restaurants_list.html', locals())
+
+def menu1(request):
+    r = Parkson.objects.get(name="KFC1")
+    return render_to_response('menu1.html',locals())

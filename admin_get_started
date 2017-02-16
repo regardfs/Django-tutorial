@@ -11,9 +11,30 @@ python manage.py migrate
 python manage.py createsuperuser
 
 5. register model
+
 vi Parkson/admin.py
+
 from django.contrib import admin
 from Parkson.models import Parkson, Food
 
 admin.site.register(Parkson)
 admin.site.register(Food)
+
+6. list need info for Parkson:
+
+class RestaurantAdmin(admin.ModelAdmin):
+    list_display = ('name', 'phone_number', 'address')
+
+7. search fields
+
+search_fields = ('name',)
+
+8. order
+
+before we have told to use class Meta to range order, now in admin module
+
+ordering = ('-price',)
+
+9. edit fields
+# price should list in front of restaurant，and only these two fields would show
+fields = ('price','restaurant')

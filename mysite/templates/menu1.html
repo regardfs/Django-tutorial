@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+    <head>
+        <title> Menu </title>
+        <meta charset='utf-8'>
+    </head>
+    <body>
+        <h2>{{ r.name }}的Menu</h2>
+        {% if r.food_set.all %}
+            <p>本餐厅共有{{ r.food_set.all|length }}道菜</p>
+            <table>
+                <tr>
+                    <th>食品名称</th>
+                    <th>食品价格</th>
+                    <th>内含数量</th>
+                    <th>辣度</th>
+                    <th>招牌</th>
+                 </tr>
+            {% for food in r.food_set.all %}
+                <tr>
+                    <td>{{ food.name }}</td>
+                    <td>{{ food.price }}</td>
+                    <td>{{ food.numbers }}</td>
+                    <td>{{ food.pungency_degree}}</td>
+                    <td>{{ food.favourite }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+        {% else %}
+            <p> 卖光啦！</p>
+        {% endif %}
+    </body>
+</html>
+
