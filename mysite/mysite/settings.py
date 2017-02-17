@@ -89,6 +89,22 @@ DATABASES = {
     }
 }
 
+# create database fengshuodb CHARACTER SET utf8 COLLATE utf8_general_ci;
+# create user 'fengshuo'@'172.17.8.101' identified by '123';
+# grant all on fengshuodb.* to 'fengshuo';
+# problem: MySQLdb
+# sudo apt-get install libmysqlclient-dev
+# sudo -H pip3 install mysqlclient
+# my.cnf:
+# character-set-server=utf8
+# default-character-set=utf8
+#   bind: 172.17.8.101
+# mysql -u root -p:
+# SET NAMES 'utf8';
+# SET CHARACTER SET utf8;
+
+
+
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 

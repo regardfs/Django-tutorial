@@ -74,7 +74,7 @@ kfc2 = Parkson(name='KFC2', phone_number='010-11110003', address='3号')
 
 # save created object
 
-[i.save for i in [kfc1, pizzhut1]]
+[i.save() for i in [kfc1, pizzhut1, kfc2]]
 
 # get all data
 pks = Parkson.objects.all() # <QuerySet [<Parkson: KFC1>, <Parkson: PizzHut1>]>

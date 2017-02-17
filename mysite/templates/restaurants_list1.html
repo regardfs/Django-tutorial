@@ -4,23 +4,28 @@
         <title> Menu </title>
         <meta charset='utf-8'>
     </head>
-    <body>
+  <body>
         <h2>餐厅列表</h2>
+        <form action="/menu/" method="get">
         <table>
             <tr>
-                <th>菜单</th>
+                <th>选取</th>
                 <th>店名</th>
                 <th>电话</th>
                 <th>地址</th>
+                <th>评价</th>
             </tr>
             {% for r in restaurants %}
                 <tr>
-                    <td> <a href="/menu1/{{r.id}}/"> 菜单 </a> </td>
+                    <td> <input type="radio" name="id" value="{{r.id}}"> </td>
                     <td> {{ r.name }} </td>
                     <td> {{ r.phone_number }} </td>
                     <td> {{ r.address }} </td>
+                    <td> <a href="/comment/{{r.id}}/"> comment </a> </td>
                 </tr>
             {% endfor %}
         </table>
+        <input type="submit" value="查看menu">
+        </form>
     </body>
 </html>

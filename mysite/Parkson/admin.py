@@ -1,5 +1,5 @@
 from django.contrib import admin
-from Parkson.models import Parkson, Food
+from Parkson.models import Parkson, Food, Comment
 
 class RestaurantAdmin(admin.ModelAdmin):
     list_display = ('name', 'phone_number', 'address')
@@ -13,3 +13,4 @@ class FoodAdmin(admin.ModelAdmin):
 
 admin.site.register(Parkson, RestaurantAdmin)
 admin.site.register(Food, FoodAdmin)
+admin.site.register(Comment)

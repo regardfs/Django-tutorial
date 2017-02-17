@@ -4,10 +4,12 @@ from django.http import HttpResponse
 from django import template
 from django.template.loader import get_template
 from django.shortcuts import render_to_response
+from django.shortcuts import HttpResponseRedirect
 
 from django.template.defaulttags import register
 
-from Parkson.models import Parkson, Food
+from Parkson.models import Parkson, Food, Comment
+import datetime
 
 @register.filter
 def get_item(dictionary, key):
@@ -40,10 +42,43 @@ def menu(request):
     restaurants = Parkson.objects.all()
     return render_to_response('parkson.html',locals())
 
+
 def restaurants_list(request):
     restaurants = Parkson.objects.all()
     return render_to_response('restaurants_list.html', locals())
 
-def menu1(request):
-    r = Parkson.objects.get(name="KFC1")
-    return render_to_response('menu1.html',locals())
+
+def restaurants_list1(request):
+    restaurants = Parkson.objects.all()
+    return render_to_response('restaurants_list1.html', locals())
+
+
+def menu1(request, id):
+    if 'id':
+        r = Parkson.objects.get(id=id)
+        return render_to_response('menu1.html',locals())
+    else:
+        return HttpResponseRedirect("/restaurants_list1/")
+
+
+def menu2(request, id):
+    if 'id':
+        r = Parkson.objects.get(id=id)
+        return render_to_response('menu1.html',locals())
+    else:
+        return HttpResponseRedirect("/restaurants_list1/")
+
+
+def comment(request, id):
+    if id:
+        r = Parkson.objects.get(id=id)
+    else:
+        return HttpResponseRedirect("/restaurants_list1/")
+    if 'ok' in request.POST:
+        user = request.POST['user']
+        content = request.POST['content']
+        email = request.POST['email']
+        date_time = datetime.datetime.now()     # 擷取現在時間
+
+        Comment.objects.create(user=user, email=email, content=content, date_time=date_time, restaurant=r)
+    return render_to_response('comments.html',locals())

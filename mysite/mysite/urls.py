@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from Parkson.views import helloworld, math, PizzaHut, menu, restaurants_list, menu1
+from Parkson.views import helloworld, math, PizzaHut, menu, restaurants_list, menu1, menu2, restaurants_list1, comment
 from mysite.views import welcome
 
 # django will automatically add '/' before admin
@@ -25,8 +25,11 @@ urlpatterns = [
     url(r'^(\d{1,3})/math/(\d{1,3})/$', math),   #(\d{1,2,3}) means from 0 to 999
     url(r'^PizzaHut/$', PizzaHut),
     url(r'^menu/$', menu),
-    url(r'^menu1/$', menu1),
+    url(r'^menu1/(\d{1,5})/$', menu1),
     url(r'^welcome/$', welcome),
     url(r'^restaurants_list/$', restaurants_list),
+    url(r'^restaurants_list1/$', restaurants_list1),
+    url(r'^menu2/(\d{1,5})/$', menu2),
+    url(r'^comment/(\d{1,5})/$', comment),
 ]
 
