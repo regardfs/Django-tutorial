@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from Parkson.views import helloworld, math, PizzaHut, menu, restaurants_list, menu1, menu2, restaurants_list1, comment
+from Parkson.views import comment_as_table
 from mysite.views import welcome
 
 # django will automatically add '/' before admin
@@ -31,5 +32,6 @@ urlpatterns = [
     url(r'^restaurants_list1/$', restaurants_list1),
     url(r'^menu2/(\d{1,5})/$', menu2),
     url(r'^comment/(\d{1,5})/$', comment),
+    url(r'^comment_as_table/(\d{1,5})/$', comment_as_table),
 ]
 

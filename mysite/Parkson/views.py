@@ -9,6 +9,7 @@ from django.shortcuts import HttpResponseRedirect
 from django.template.defaulttags import register
 
 from Parkson.models import Parkson, Food, Comment
+from Parkson.forms import CommentForm
 import datetime
 
 @register.filter
@@ -69,16 +70,41 @@ def menu2(request, id):
         return HttpResponseRedirect("/restaurants_list1/")
 
 
-def comment(request, id):
+def comment(request,id):
     if id:
         r = Parkson.objects.get(id=id)
     else:
-        return HttpResponseRedirect("/restaurants_list1/")
+        return HttpResponseRedirect("/restaurants_list/")
     if 'ok' in request.POST:
-        user = request.POST['user']
-        content = request.POST['content']
-        email = request.POST['email']
-        date_time = datetime.datetime.now()     # 擷取現在時間
-
-        Comment.objects.create(user=user, email=email, content=content, date_time=date_time, restaurant=r)
+        f = CommentForm(request.POST)
+        if f.is_valid():
+            user = f.cleaned_data['user']
+            content = f.cleaned_data['content']
+            email = f.cleaned_data['email']
+            date_time = datetime.datetime.now()
+            c = Comment(user=user, email=email, content=content, date_time=date_time, restaurant=r)
+            c.save()
+            f = CommentForm()
+    else:
+        f = CommentForm()
     return render_to_response('comments.html',locals())
+
+
+def comment_as_table(request,id):
+    if id:
+        r = Parkson.objects.get(id=id)
+    else:
+        return HttpResponseRedirect("/restaurants_list/")
+    if 'ok' in request.POST:
+        f = CommentForm(request.POST)
+        if f.is_valid():
+            user = f.cleaned_data['user']
+            content = f.cleaned_data['content']
+            email = f.cleaned_data['email']
+            date_time = datetime.datetime.now()
+            c = Comment(user=user, email=email, content=content, date_time=date_time, restaurant=r)
+            c.save()
+            f = CommentForm()
+    else:
+        f = CommentForm()
+    return render_to_response('comments_as_table.html',locals())

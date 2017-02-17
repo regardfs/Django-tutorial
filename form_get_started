@@ -1,3 +1,120 @@
 Form as model
 
-1.
+1. form are inherit from form.Forms
+
+- Form.as_table() => 表格輸出
+- Form.as_p()     => 段落輸出
+- Form.as_ul()    => 列表輸出
+
+2. form format check
+
+before we check the type of the form, we should assume that form was bounded
+
+for example:
+
+>>> from restaurants.forms import CommentForm
+>>> f = CommentForm()
+>>> f.is_bound
+False
+>>> f = CommentForm({'user':'dokelung','email':'dokelung@gmail.com','content':'Good!'})
+>>> f.is_bound
+True
+
+3. use is_vaild() to check
+
+for example:
+
+>>> f = CommentForm({'user':'dokelung','email':'dokelung@gmail.com','content':'Good!'})
+>>> f.as_table()
+<tr>
+    <th>
+        <label for="id_user">User:</label>
+    </th>
+    <td>
+        <input id="id_user" maxlength="20" name="user" type="text" value="dokelung" required />
+    </td>
+</tr>
+<tr>
+    <th>
+        <label for="id_email">Email:</label>
+    </th>
+    <td>
+        <input id="id_email" maxlength="20" name="email" type="email" value="dokelung@gmail.com" />
+    </td>
+</tr>
+<tr>
+    <th>
+        <label for="id_content">Content:</label>
+    </th>
+    <td>
+        <input id="id_content" maxlength="200" name="content" type="text" value="Good!" required />
+    </td>
+</tr>
+>>> f.is_valid()
+True
+>>> f = CommentForm({'user':'dokelung','content':'Good!'})
+>>> f.is_valid()
+True
+>>> f = CommentForm({'email':'dokelung@gmail.com','content':'Good!'})
+>>> f.is_valid()
+False
+>>> f = CommentForm({'user':'dokelung','email':'dokelung','content':'Good!'})
+>>> f.is_valid()
+False
+
+4. errors is a list of error, we could get error info from it
+
+for example
+
+>>> f = CommentForm({'user':'dokelung','email':'dokelung@gmail.com','content':'Good!'})
+>>> f['email'].errors
+[]
+>>> f = CommentForm({'email':'dokelung','content':'Good!'})
+>>> f['user'].errors
+[u'This field is required.']
+>>> f['email'].errors
+[u'Enter a valid email address.']
+
+>>> f = CommentForm({'email':'dokelung','content':'Good!'})
+>>> f.errors()
+{'email': [u'Enter a valid email address.'],
+ 'user': [u'This field is required.']}
+
+5. use cleaned_data to show the vaild filed
+
+for example:
+
+>>> f = CommentForm({'email':'dokelung','content':'Good!'})
+>>> f.cleaned_data
+{'content': u'Good'}
+
+6. change form meta type
+
+for example:
+
+from django import forms
+
+class CommentForm(forms.Form):
+    user = forms.CharField(max_length=20)
+    email = forms.EmailField(max_length=20, required=False)
+    content = forms.CharField(max_length=200, widget=forms.Textarea)
+
+7. define check rules for form
+
+for example:
+
+# -*- coding: utf-8 -*-
+
+from django import forms
+
+class CommentForm(forms.Form):
+    user = forms.CharField(max_length=20)
+    email = forms.EmailField(max_length=20, required=False)
+    content = forms.CharField(max_length=200, widget=forms.Textarea)
+
+    def clean_content(self):
+        content = self.cleaned_data['content']
+        if len(content) < 5:
+            raise forms.ValidationError('字數不足')
+        return content
+

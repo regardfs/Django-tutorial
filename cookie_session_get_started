@@ -1,0 +1,17 @@
+Cookie:
+
+set cookie:
+
+def set_c(request):
+    response = HttpResponse('Set your lucky_number as 8')
+    response.set_cookie('lucky_number',8)
+    return response
+
+get cookie:
+
+def get_c(request):
+    if 'lucky_number' in request.COOKIES:
+        return HttpResponse('Your lucky_number is {0}'.format(request.COOKIES['lucky_number']))
+    else:
+        return HttpResponse('No cookies.')
+
