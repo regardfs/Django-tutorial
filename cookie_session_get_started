@@ -1,6 +1,6 @@
 Cookie:
 
-set cookie:
+1. set cookie:
 
 def set_c(request):
     response = HttpResponse('Set your lucky_number as 8')
@@ -14,4 +14,63 @@ def get_c(request):
         return HttpResponse('Your lucky_number is {0}'.format(request.COOKIES['lucky_number']))
     else:
         return HttpResponse('No cookies.')
+
+2. Session:
+
+
+def use_session(request):
+    request.session['lucky_number'] = 8                               # 設置lucky_number
+
+    if 'lucky_number' in request.session:
+        lucky_number = request.session['lucky_number']                # 讀取lucky_number
+
+        response = HttpResponse('Your lucky_number is '+lucky_number)
+    del request.session['lucky_number']                               # 刪除lucky_number
+
+    return response
+
+
+3. Session data in backend
+
+python manage.py shell
+
+>>> from django.contrib.sessions.models import Session
+>>> s = Session.objects.all()[0]
+>>> s.expire_date
+datetime.datetime(2014, 8, 30, 3, 55, 42, 878739, tzinfo=<UTC>)
+
+>>> s.session_data
+u'MDZmZGI2ZjZlNTNjYjc2MTlmMDMxM2Y5NTRlNGYzZTg2M2Q0NWJhNjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0='
+>>> s.get_decoded()
+{u'_auth_user_backend': u'django.contrib.auth.backends.ModelBackend',
+ u'_auth_user_id': 1}
+
+4. Session Cookie
+
+from django.contrib.sessions.models import Session
+
+def session_test(request):
+    sid = request.COOKIES['sessionid']
+    s = Session.objects.get(pk=sid)
+    s_info = 'Session ID:' + sid + '<br>Expire_date:' + str(s.expire_date) +
+             '<br>Data:' + str(s.get_decoded())
+    return HttpResponse(s_info)
+
+or
+
+def session_test(request):
+    sid = request.COOKIES['sessionid']
+    sid2 = request.session.session_key
+    s = Session.objects.get(pk=sid)
+    s_info = 'Session ID:' + sid + '<br>SessionID2:' + sid2 + '<br>Expire_date:' +
+              str(s.expire_date) + '<br>Data:' + str(s.get_decoded())
+    return HttpResponse(s_info)
+
+5. test session cookie:
+
+利用HttpRequest.session.set_test_cookie()
+利用HttpRequest.session.test_cookie_worked()
+利用HttpRequest.session.delete_test_cookie()
+
+6. use session to store model
 
