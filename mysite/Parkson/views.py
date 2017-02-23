@@ -70,7 +70,7 @@ def menu2(request, id):
         return HttpResponseRedirect("/restaurants_list1/")
 
 
-def comment(request,id):
+def comment(request, id):
     if id:
         r = Parkson.objects.get(id=id)
     else:
@@ -90,7 +90,7 @@ def comment(request,id):
     return render_to_response('comments.html',locals())
 
 
-def comment_as_table(request,id):
+def comment_as_table(request, id):
     if id:
         r = Parkson.objects.get(id=id)
     else:
