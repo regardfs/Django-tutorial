@@ -21,14 +21,14 @@ urls.py: The URL declarations for this Django project; a “table of contents”
 2.1: setting mysql DATABASES backend: replace default sqllite backends with this one
 
 # firstly, install some pkg(python3 env)
->>> apt-get install libmysqlclient-dev
->>> apt-get install python-dev
->>>  pip install mysqlclient
+>>> sudo apt-get install libmysqlclient-dev -y
+>>> sudo apt-get install python-dev -y
+>>> pip install mysqlclient MySQL-python
 
 # creating test-oriented database fengshuodb
->>> create database fengshuodb;
->>> create user 'fengshuo'@'172.17.8.101' identified by '123';
->>> grant all on fengshuodb.* to 'fengshuo';
+>>> create database djangodb CHARACTER SET utf8;
+>>> create user 'fengshuo'@'%' identified by '123';
+>>> grant all on djangodb.* to 'fengshuo';
 
 # support chinese
 >>> alter database fengshuodb character set utf8;
