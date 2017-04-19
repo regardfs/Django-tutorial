@@ -6,6 +6,16 @@
 
 from django.db import models
 
+models type:
+    'AutoField', 'BLANK_CHOICE_DASH', 'BigAutoField', 'BigIntegerField',
+    'BinaryField', 'BooleanField', 'CharField', 'CommaSeparatedIntegerField',
+    'DateField', 'DateTimeField', 'DecimalField', 'DurationField',
+    'EmailField', 'Empty', 'Field', 'FieldDoesNotExist', 'FilePathField',
+    'FloatField', 'GenericIPAddressField', 'IPAddressField', 'IntegerField',
+    'NOT_PROVIDED', 'NullBooleanField', 'PositiveIntegerField',
+    'PositiveSmallIntegerField', 'SlugField', 'SmallIntegerField', 'TextField',
+    'TimeField', 'URLField', 'UUIDField'
+
 class CustomManager(models.Manager):
     def get_queryset(self):
         super_query = super(models.Manager, self).get_queryset()
@@ -47,6 +57,9 @@ class Food(models.Model):
 
     class Meta:
         ordering = [-'price']
+    // data_table
+    // verbose_name
+    // ordering
 
 2. After defining your model, you should check！
 python manage.py check
